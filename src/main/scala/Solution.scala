@@ -241,12 +241,13 @@ object Solution extends App {
      }
 
   lazy val result = {
-    println("Processing data")
-    val start = System.currentTimeMillis
+    println("Reading data")
     val (productErrors, products) = parseProducts
     productErrors.toNel.foreach(println(_))
     val (listingErrors, listings) = parseListings
     listingErrors.toNel.foreach(println(_))
+    println("Processing data")
+    val start = System.currentTimeMillis
     val job = listings.foldLeft(Job.empty)(filterCategory(products.keys.toSet, filterProduct(products)))
     val end = System.currentTimeMillis
     println(s"Completed in ${(end - start)/1000} seconds")
